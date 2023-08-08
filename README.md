@@ -51,6 +51,14 @@ This project is a Laravel 10 based web application that provides APIs for user r
 }
 ```
 
+### Refresh Token
+
+- **Endpoint:** `/api/refresh`
+- **Method:** POST
+
+**Headers:**
+`Authorization: Bearer <token>`
+
 ### Movies
 
 - **Endpoint:** `/api/movies`
@@ -130,6 +138,7 @@ Replace `{tvShow}`, `{season}`, and `{episode}` with the appropriate values:
 
 1. Setup Laravel Sail and Docker on Ubuntu.
 2. Install `tymon/jwt` for JWT authentication.
-3. Run migrations and seeders as required.
+3. After installing the tymon/jwt package and creating the API secret key, you need to configure the token expiration time. Add the following line to your .env file to set the token's expiration time in minutes: `JWT_TTL=60`
+4. Run migrations and seeders as required.
 
 Happy coding!
