@@ -1,66 +1,134 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Project Overview
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This project is a Laravel 10 based web application that provides APIs for user registration, login, and management of movies and TV shows.
 
-## About Laravel
+## Technical Stack
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Framework:** [Laravel 10](https://laravel.com/docs/10.x)
+- **PHP Version:** 8.2.8
+- **Server Setup**:
+  - [Laravel Sail](https://laravel.com/docs/10.x/sail): A lightweight command-line interface for interacting with Laravel's default Docker environment.
+  - **Docker**: The application is containerized using Docker.
+  - **Operating System**: Ubuntu 22.04.2 LTS
+- **Authentication:** JWT-based authentication using the [tymon/jwt-auth](https://github.com/tymondesigns/jwt-auth) package.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Endpoints
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### User Registration
 
-## Learning Laravel
+- **Endpoint:** `/api/register`
+- **Method:** POST
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+**Body (JSON):**
+```json
+{
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "password": "securepassword123",
+    "password_confirmation": "securepassword123"
+}
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### User Login
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Endpoint:** `/api/login`
+- **Method:** POST
 
-## Laravel Sponsors
+**Body (JSON):**
+```json
+{
+    "email": "john.doe@example.com",
+    "password": "securepassword123"
+}
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+**Response:** 
+```json
+{
+    "token": "<token_value>",
+    "token_type": "bearer",
+    "expires_in": 3600
+}
+```
 
-### Premium Partners
+### Movies
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+- **Endpoint:** `/api/movies`
+- **Method:** POST (for creating)
 
-## Contributing
+**Headers:**
+Authorization: Bearer <token>
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**Body (JSON) for Creating:**
+```json
+{
+    "name": "The-Matrix"  // Required
+    // Optional fields below
+    "director_name": "Lana Wachowski, Lilly Wachowski",
+    "actors_name": ["Keanu Reeves", "Laurence Fishburne"]
+}
+```
 
-## Code of Conduct
+- **Method:** GET (for retrieving)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+**Parameters:**
+- `name=` (full name or part of the movie name, use '-' instead of spaces)
+- `director_name=` (full name or part of the director name, use '-' instead of spaces)
+- `sort_field=` (field to order by)
+- `sort_order=` (asc or desc)
 
-## Security Vulnerabilities
+### TV Shows
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- **Endpoint:** `/api/tv-shows`
+- **Method:** POST (for creating)
 
-## License
+**Headers:**
+Authorization: Bearer <token>
+**Body (JSON) for Creating:**
+```json
+{
+  "name": "Breaking Bad", // Required
+  // Optional fields below
+  "director_name": "Vince Gilligan",
+  "seasons": [
+    {
+      "season_number": 1,
+      "episodes": [
+        {
+          "episode_number": 1,
+          "name": "Pilot"
+        },
+        {
+          "episode_number": 2,
+          "name": "Cat's in the Bag..."
+        }
+      ],
+      "actors": ["Bryan Cranston", "Aaron Paul"]
+    }
+  ]
+}
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- **Endpoint:** `/api/tv-shows/{tvShow}/season/{season}/episode/{episode}`
+- **Method:** GET (for retrieving a particular episode)
+
+Replace `{tvShow}`, `{season}`, and `{episode}` with the appropriate values:
+
+- `{tvShow}`: Full name of the show, using '-' in place of spaces (e.g. "breaking-bad" for "Breaking Bad").
+- `{season}`: The season number you're interested in (e.g. "1" for the first season). This should be a numeric value.
+- `{episode}`: The episode number within the chosen season (e.g. "2" for the second episode). This should also be a numeric value.
+
+**Headers:**
+Authorization: Bearer <token>
+
+---
+
+**Note:** Ensure all interactions with the API are authenticated by including the Bearer token in the header for every request after login.
+
+## Setup
+
+1. Setup Laravel Sail and Docker on Ubuntu.
+2. Install `tymon/jwt` for JWT authentication.
+3. Run migrations and seeders as required.
+
+Happy coding!
