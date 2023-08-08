@@ -5,6 +5,7 @@ This project is a Laravel 10 based web application that provides APIs for user r
 ## Technical Stack
 
 - **Framework:** [Laravel 10](https://laravel.com/docs/10.x)
+- **ORM**: [`Eloquent`](https://laravel.com/docs/10.x/eloquent) (Laravel's default Object-Relational Mapping tool)
 - **PHP Version:** 8.2.8
 - **Server Setup**:
   - [Laravel Sail](https://laravel.com/docs/10.x/sail): A lightweight command-line interface for interacting with Laravel's default Docker environment.
