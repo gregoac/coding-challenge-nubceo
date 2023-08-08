@@ -54,10 +54,10 @@ This project is a Laravel 10 based web application that provides APIs for user r
 ### Movies
 
 - **Endpoint:** `/api/movies`
-- **Method:** POST (for creating)
+- **Method:** POST
 
 **Headers:**
-Authorization: Bearer <token>
+`Authorization: Bearer <token>`
 
 **Body (JSON) for Creating:**
 ```json
@@ -69,7 +69,7 @@ Authorization: Bearer <token>
 }
 ```
 
-- **Method:** GET (for retrieving)
+- **Method:** GET
 
 **Parameters:**
 - `name=` (full name or part of the movie name, use '-' instead of spaces)
@@ -80,10 +80,11 @@ Authorization: Bearer <token>
 ### TV Shows
 
 - **Endpoint:** `/api/tv-shows`
-- **Method:** POST (for creating)
+- **Method:** POST
 
 **Headers:**
-Authorization: Bearer <token>
+`Authorization: Bearer <token>`
+
 **Body (JSON) for Creating:**
 ```json
 {
@@ -119,7 +120,7 @@ Replace `{tvShow}`, `{season}`, and `{episode}` with the appropriate values:
 - `{episode}`: The episode number within the chosen season (e.g. "2" for the second episode). This should also be a numeric value.
 
 **Headers:**
-Authorization: Bearer <token>
+`Authorization: Bearer <token>`
 
 ---
 
