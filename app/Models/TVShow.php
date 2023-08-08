@@ -90,10 +90,6 @@ class TVShow extends Model
     public function getTvShowEpisodeDetails($tvShowName, $seasonNumber, $episodeNumber)
     {
 
-        \DB::listen(function ($query) {
-            \Log::info($query->sql, $query->bindings);
-        });
-
         $tvShowName = ucwords(str_replace('-', ' ', $tvShowName));
 
         $tvShow = $this->where('name', $tvShowName)->firstOrFail();

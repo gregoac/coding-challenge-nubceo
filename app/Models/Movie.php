@@ -56,6 +56,9 @@ class Movie extends Model
     // this function is only to be used by the Movie model, since is static
     public static function filterAndSort($name, $director, $sortField, $sortOrder)
     {
+        $name = ucwords(str_replace('-', ' ', $name));
+        $director = ucwords(str_replace('-', ' ', $director));
+
         $query = self::query();
 
         if ($name) {
@@ -64,7 +67,7 @@ class Movie extends Model
 
         if ($director) {
             $query->whereHas('director', function ($query) use ($director) {
-                $query->where('name', 'like', '%'.$director.'%');
+                $query->where('name', 'like', '%'. strtolower($director) .'%');
             });
         }
 
