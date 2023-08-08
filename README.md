@@ -42,15 +42,6 @@ This project is a Laravel 10 based web application that provides APIs for user r
 }
 ```
 
-**Response:** 
-```json
-{
-    "token": "<token_value>",
-    "token_type": "bearer",
-    "expires_in": 3600
-}
-```
-
 ### Refresh Token
 
 - **Endpoint:** `/api/refresh`
