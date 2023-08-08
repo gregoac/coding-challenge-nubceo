@@ -12,6 +12,13 @@ This project is a Laravel 10 based web application that provides APIs for user r
   - **Operating System**: Ubuntu 22.04.2 LTS
 - **Authentication:** JWT-based authentication using the [tymon/jwt-auth](https://github.com/tymondesigns/jwt-auth) package.
 
+## Setup
+
+1. Setup Laravel Sail and Docker on Ubuntu.
+2. After pulling the project, run `composer install` to install necessary dependencies.
+3. After setting up `tymon/jwt` and creating the API secret key, you need to configure the token expiration time. Add the following line to your `.env` file to set the token's expiration time in minutes: `JWT_TTL=60`
+4. Run migrations and seeders as required.
+
 ## Endpoints
 
 ### User Registration
@@ -121,15 +128,99 @@ Replace `{tvShow}`, `{season}`, and `{episode}` with the appropriate values:
 **Headers:**
 `Authorization: Bearer <token>`
 
+### Database Schema
+
+#### Users Table
+
+| Field              | Type          | Modifiers     |
+|--------------------|---------------|---------------|
+| id                 | BIGINT        | AUTO_INCREMENT, PRIMARY KEY |
+| name               | VARCHAR(255)  |               |
+| email              | VARCHAR(255)  | UNIQUE        |
+| email_verified_at  | TIMESTAMP     | NULLABLE      |
+| password           | VARCHAR(255)  |               |
+| remember_token     | VARCHAR(100)  | NULLABLE      |
+| created_at         | TIMESTAMP     | NULLABLE      |
+| updated_at         | TIMESTAMP     | NULLABLE      |
+
+#### Actors Table
+
+| Field      | Type          | Modifiers                           |
+|------------|---------------|-------------------------------------|
+| id         | BIGINT        | AUTO_INCREMENT, PRIMARY KEY          |
+| name       | VARCHAR(255)  |                                     |
+| created_at | TIMESTAMP     | NULLABLE                            |
+| updated_at | TIMESTAMP     | NULLABLE                            |
+
+#### Directors Table
+
+| Field      | Type          | Modifiers                           |
+|------------|---------------|-------------------------------------|
+| id         | BIGINT        | AUTO_INCREMENT, PRIMARY KEY          |
+| name       | VARCHAR(255)  |                                     |
+| created_at | TIMESTAMP     | NULLABLE                            |
+| updated_at | TIMESTAMP     | NULLABLE                            |
+
+#### TV Shows Table
+
+| Field       | Type           | Modifiers                                |
+|-------------|----------------|------------------------------------------|
+| id          | BIGINT         | AUTO_INCREMENT, PRIMARY KEY               |
+| name        | VARCHAR(255)   |                                          |
+| director_id | BIGINT         | FOREIGN KEY, NULLABLE, REFERENCES directors(id), ON DELETE SET NULL |
+| created_at  | TIMESTAMP      | NULLABLE                                 |
+| updated_at  | TIMESTAMP      | NULLABLE                                 |
+
+#### Movies Table
+
+| Field       | Type           | Modifiers                                |
+|-------------|----------------|------------------------------------------|
+| id          | BIGINT         | AUTO_INCREMENT, PRIMARY KEY               |
+| name        | VARCHAR(255)   |                                          |
+| director_id | BIGINT         | FOREIGN KEY, NULLABLE, REFERENCES directors(id), ON DELETE SET NULL |
+| created_at  | TIMESTAMP      | NULLABLE                                 |
+| updated_at  | TIMESTAMP      | NULLABLE                                 |
+
+#### Seasons Table
+
+| Field         | Type          | Modifiers                                             |
+|---------------|---------------|-------------------------------------------------------|
+| id            | BIGINT        | AUTO_INCREMENT, PRIMARY KEY                            |
+| season_number | INTEGER       |                                                       |
+| tv_show_id    | BIGINT        | FOREIGN KEY, REFERENCES tv_shows(id), ON DELETE CASCADE|
+| created_at    | TIMESTAMP     | NULLABLE                                              |
+| updated_at    | TIMESTAMP     | NULLABLE                                              |
+
+#### Actor-Movie Pivot Table
+
+| Field    | Type           | Modifiers                                          |
+|----------|----------------|----------------------------------------------------|
+| id       | BIGINT         | AUTO_INCREMENT, PRIMARY KEY                         |
+| actor_id | BIGINT         | FOREIGN KEY, REFERENCES actors(id), ON DELETE CASCADE|
+| movie_id | BIGINT         | FOREIGN KEY, REFERENCES movies(id), ON DELETE CASCADE|
+
+#### Actor-Show Pivot Table
+
+| Field      | Type           | Modifiers                                             |
+|------------|----------------|-------------------------------------------------------|
+| id         | BIGINT         | AUTO_INCREMENT, PRIMARY KEY                            |
+| actor_id   | BIGINT         | FOREIGN KEY, REFERENCES actors(id), ON DELETE CASCADE  |
+| tv_show_id | BIGINT         | FOREIGN KEY, REFERENCES tv_shows(id), ON DELETE CASCADE|
+| season_id  | BIGINT         | FOREIGN KEY, REFERENCES seasons(id), ON DELETE CASCADE |
+
+#### Episodes Table
+
+| Field           | Type          | Modifiers                                             |
+|-----------------|---------------|-------------------------------------------------------|
+| id              | BIGINT        | AUTO_INCREMENT, PRIMARY KEY                            |
+| name            | VARCHAR(255)  |                                                       |
+| episode_number  | VARCHAR(255)  |                                                       |
+| season_id       | BIGINT        | FOREIGN KEY, REFERENCES seasons(id), ON DELETE CASCADE |
+| created_at      | TIMESTAMP     | NULLABLE                                              |
+| updated_at      | TIMESTAMP     | NULLABLE                                              |
+
 ---
 
 **Note:** Ensure all interactions with the API are authenticated by including the Bearer token in the header for every request after login.
-
-## Setup
-
-1. Setup Laravel Sail and Docker on Ubuntu.
-2. Install `tymon/jwt` for JWT authentication.
-3. After installing the tymon/jwt package and creating the API secret key, you need to configure the token expiration time. Add the following line to your .env file to set the token's expiration time in minutes: `JWT_TTL=60`
-4. Run migrations and seeders as required.
 
 Happy coding!
