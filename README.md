@@ -69,7 +69,7 @@ This project is a Laravel 10 based web application that provides APIs for user r
 **Body (JSON) for Creating:**
 ```json
 {
-    "name": "The-Matrix"  // Required
+    "name": "The Matrix"  // Required
     // Optional fields below
     "director_name": "Lana Wachowski, Lilly Wachowski",
     "actors_name": ["Keanu Reeves", "Laurence Fishburne"]
